@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>StudyFlow - Time Management Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== LOGIN PAGE ===== */
+        .login-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(25, 55, 109, 0.15);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .login-logo {
+            height: 70px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-logo-mark {
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #19376d 0%, #0f2847 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #19376d;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #19376d;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #add8e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #19376d;
+            box-shadow: 0 0 0 3px rgba(25, 55, 109, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #19376d 0%, #0f2847 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 55, 109, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        /* ===== DASHBOARD PAGE ===== */
+        .dashboard-page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-page.active {
+            display: block;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(25, 55, 109, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);
+            color: #19376d;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            border-bottom: 1px solid rgba(173, 216, 230, 0.3);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dashboard-ai-card-wrapper {
+            padding: 0 40px 24px;
+        }
+
+        .ai-personalization-card {
+            background: white;
+            border: 1px solid #cfe8f7;
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: 0 10px 30px rgba(25, 55, 109, 0.08);
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .ai-personalization-card h4 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            color: #19376d;
+        }
+
+        .ai-personalization-card p {
+            margin: 0;
+            font-size: 13px;
+            color: #4a5a6a;
+            line-height: 1.5;
+        }
+
+        .dashboard-telegram-card-wrapper {
+            padding: 0 40px 24px;
+        }
+
+        .telegram-assistant-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+            border: 1px solid #cfe8f7;
+            border-radius: 16px;
+            padding: 22px 24px;
+            box-shadow: 0 10px 30px rgba(25, 55, 109, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .telegram-assistant-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .telegram-assistant-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #19376d;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .telegram-assistant-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #19376d;
+            margin-bottom: 6px;
+        }
+
+        .telegram-assistant-text {
+            font-size: 14px;
+            color: #4a5a6a;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .telegram-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .telegram-feature-card {
+            background: #f7fbff;
+            border: 1px solid #dbeef8;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #19376d;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .telegram-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #19376d 0%, #0f2847 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 8px 20px rgba(25, 55, 109, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .telegram-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(25, 55, 109, 0.25);
+        }
+
+        .telegram-cta:active {
+            transform: translateY(0);
+        }
+
+        .ai-personalization-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #19376d;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .header-ai-card h4 {
+            margin: 0 0 4px;
+            font-size: 15px;
+            color: #19376d;
+        }
+
+        .header-ai-card p {
+            margin: 0;
+            font-size: 12px;
+            color: #4a5a6a;
+            line-height: 1.4;
+        }
+
+        .header-ai-card .ai-personalization-badge {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #19376d;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .logo-container {
+            width: auto;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-container .login-logo-mark {
+            height: 55px;
+            width: 55px;
+            font-size: 20px;
+            filter: drop-shadow(0 2px 4px rgba(25, 55, 109, 0.1));
+        }
+
+        .clock-timer {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(173, 216, 230, 0.2);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            color: #19376d;
+            min-width: 75px;
+            letter-spacing: 1px;
+        }
+
+        .greeting h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #19376d;
+        }
+
+        .greeting p {
+            font-size: 13px;
+            color: #666;
+            opacity: 0.85;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .date-display {
+            font-size: 13px;
+            color: #19376d;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #e67e00;
+            transform: translateY(-2px);
+        }
+
+        /* Main content grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr 320px;
+            gap: 25px;
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        /* Left sidebar */
+        .sidebar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activities-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .activities-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .activities-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .activities-dropdown {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #add8e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #19376d;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .activities-dropdown:hover {
+            border-color: #19376d;
+            background: #f5f9fc;
+        }
+
+        .activities-dropdown:focus {
+            outline: none;
+            border-color: #19376d;
+            box-shadow: 0 0 0 3px rgba(25, 55, 109, 0.1);
+        }
+
+        .add-new-activity-btn {
+            width: 100%;
+            padding: 10px 12px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff7700 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-new-activity-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .summary-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        .summary-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-box.pending {
+            border-left-color: #add8e6;
+        }
+
+        .summary-box.overdue {
+            border-left-color: #ff8c00;
+        }
+
+        .summary-box.completed {
+            border-left-color: #19376d;
+        }
+
+        .summary-box.streak {
+            border-left-color: #ff8c00;
+        }
+
+        .summary-box-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .summary-box-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #19376d;
+            margin-bottom: 8px;
+        }
+
+        .summary-box.overdue .summary-box-value,
+        .summary-box.streak .summary-box-value {
+            color: #ff8c00;
+        }
+
+        .summary-box-subtitle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Center - Focus Timer */
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);
+            border-radius: 12px;
+            padding: 40px 30px;
+        }
+
+        .timer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .timer-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #19376d;
+            font-weight: 600;
+        }
+
+        .timer-display {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: #19376d;
+            border: 4px solid #add8e6;
+            box-shadow: 0 4px 15px rgba(173, 216, 230, 0.3);
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .timer-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .timer-btn.start {
+            background: #19376d;
+            color: white;
+        }
+
+        .timer-btn.start:hover {
+            background: #0f2847;
+        }
+
+        .timer-btn.pause {
+            background: #ff8c00;
+            color: white;
+        }
+
+        .timer-btn.pause:hover {
+            background: #e67e00;
+        }
+
+        .timer-btn.reset {
+            background: #add8e6;
+            color: #19376d;
+        }
+
+        .timer-btn.reset:hover {
+            background: #95c5d0;
+        }
+
+        /* Right sidebar - Calendar */
+        .sidebar-right {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e8e8e8;
+            overflow: visible;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .calendar-header h3 {
+            font-size: 16px;
+            color: #19376d;
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: #add8e6;
+            color: #19376d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .calendar-nav button:hover {
+            background: #19376d;
+            color: white;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            padding: 8px 0;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 24px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .day {
+            min-height: 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            background: #f9f9f9;
+            color: #666;
+            transition: all 0.2s;
+            font-weight: 600;
+            border: 1px solid transparent;
+            position: relative;
+            padding: 10px 8px 10px;
+            overflow: hidden;
+            box-sizing: border-box;
+            min-width: 0;
+            width: 100%;
+        }
+
+        .day:hover {
+            background: #add8e6;
+            color: #19376d;
+        }
+
+        .day.selected {
+            background: #19376d;
+            color: white;
+            font-weight: 600;
+            border-color: #19376d;
+        }
+
+        .day.today {
+            border: 2px solid #19376d;
+        }
+
+        .day.disabled {
+            color: #ddd;
+            cursor: default;
+        }
+
+        .day.disabled:hover {
+            background: #f9f9f9;
+        }
+
+        .day {
+            position: relative;
+        }
+
+        .day-markers {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .day-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0.95;
+        }
+
+        .day-dot.tasks {
+            background: #4a90e2;
+        }
+
+        .day-dot.classes {
+            background: #19376d;
+        }
+
+        .day-dot.exams {
+            background: #ff8c00;
+        }
+
+        .day-dot.vacations {
+            background: #7D3C98;
+        }
+
+        .selected-date-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+            background: #f7fbfe;
+            padding: 8px 10px;
+            border-radius: 8px;
+        }
+
+        .upcoming-tasks {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .upcoming-tasks h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #19376d;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .upcoming-tasks h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #19376d;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .task-item {
+            font-size: 12px;
+            padding: 8px;
+            margin-bottom: 6px;
+            background: #f5f5f5;
+            border-left: 3px solid #4a90e2;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        .task-item.tasks {
+            border-left-color: #4a90e2;
+        }
+
+        .task-item.classes {
+            border-left-color: #19376d;
+        }
+
+        .task-item.exams {
+            border-left-color: #ff8c00;
+        }
+
+        .task-item.vacations {
+            border-left-color: #7D3C98;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        /* ===== ACTIVITY DISPLAY SECTIONS ===== */
+        .activities-display {
+            padding: 30px;
+            background: white;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .activity-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            padding: 24px;
+            border: 2px solid #e8e8e8;
+            transition: all 0.2s;
+        }
+
+        .activity-box:hover {
+            border-color: #add8e6;
+            box-shadow: 0 4px 12px rgba(173, 216, 230, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .activity-box.tasks {
+            border-top: 4px solid #4a90e2;
+        }
+
+        .activity-box.tasks .activity-item {
+            border-left-color: #4a90e2;
+        }
+
+        .activity-box.classes {
+            border-top: 4px solid #19376d;
+        }
+
+        .activity-box.classes .activity-item {
+            border-left-color: #19376d;
+        }
+
+        .activity-box.exams {
+            border-top: 4px solid #ff8c00;
+        }
+
+        .activity-box.exams .activity-item {
+            border-left-color: #ff8c00;
+        }
+
+        .activity-box.vacations {
+            border-top: 4px solid #7D3C98;
+        }
+
+        .activity-box.vacations .activity-item {
+            border-left-color: #7D3C98;
+        }
+
+        .activity-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #19376d;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #add8e6;
+            transition: all 0.2s;
+        }
+
+        .activity-box.classes .activity-item {
+            border-left-color: #19376d;
+        }
+
+        .activity-box.exams {
+            border-top: 4px solid #ff8c00;
+        }
+
+        .activity-box.exams .activity-item {
+            border-left-color: #ff8c00;
+        }
+
+        .activity-box.vacations {
+            border-top: 4px solid #7D3C98;
+        }
+
+        .activity-box.vacations .activity-item {
+            border-left-color: #7D3C98;
+        }
+
+        .activity-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+        }
+
+        .activity-item-title {
+            font-weight: 600;
+            color: #19376d;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .activity-item-date {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .activity-item-notes {
+            font-size: 12px;
+            color: #666;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .activity-item-actions {
+            margin-top: 10px;
+        }
+
+        .ai-personalization-card {
+            background: linear-gradient(135deg, #f7fbfe 0%, #eef7ff 100%);
+            border: 1px solid #cfe8f7;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 8px 22px rgba(25, 55, 109, 0.08);
+        }
+
+        .ai-personalization-card.pinned {
+            position: relative;
+            top: auto;
+        }
+
+        .ai-personalization-card h4 {
+            font-size: 16px;
+            color: #19376d;
+            margin-bottom: 8px;
+        }
+
+        .ai-prompt-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .ai-prompt-pill {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff7700 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .ai-prompt-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.35);
+        }
+
+        .activity-check-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 6px 10px;
+            background: #19376d;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .activity-check-btn.done {
+            background: #ff8c00;
+        }
+
+        .activity-box.vacations {
+            border-top: 4px solid #ff8c00;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+        }
+
+        /* ===== AI CHATBOT ===== */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #19376d 0%, #0f2847 100%);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(25, 55, 109, 0.24);
+            z-index: 1100;
+        }
+
+        .chatbot-panel {
+            position: fixed;
+            bottom: 92px;
+            right: 24px;
+            width: min(360px, calc(100vw - 32px));
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(25, 55, 109, 0.2);
+            overflow: hidden;
+            border: 1px solid #e8eef5;
+            z-index: 1100;
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .chatbot-panel.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #19376d 0%, #0f2847 100%);
+            color: white;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header-title {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .chatbot-close {
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .chatbot-messages {
+            padding: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f7fbfe;
+        }
+
+        .chat-bubble {
+            max-width: 88%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .chat-bubble.bot {
+            background: white;
+            color: #334155;
+            align-self: flex-start;
+            border: 1px solid #e8eef5;
+        }
+
+        .chat-bubble.user {
+            background: #add8e6;
+            color: #19376d;
+            align-self: flex-end;
+        }
+
+        .chatbot-input-row {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            border-top: 1px solid #e8eef5;
+            background: white;
+        }
+
+        .chatbot-input-row input {
+            flex: 1;
+            border: 1px solid #add8e6;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .chatbot-input-row button {
+            border: none;
+            border-radius: 8px;
+            background: #ff8c00;
+            color: white;
+            padding: 0 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* ===== MODAL / POP-UP ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #19376d;
+            margin-bottom: 25px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #19376d;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #19376d;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #add8e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #19376d;
+            box-shadow: 0 0 0 3px rgba(25, 55, 109, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-buttons .save-btn {
+            background: #19376d;
+            color: white;
+        }
+
+        .modal-buttons .save-btn:hover {
+            background: #0f2847;
+            transform: translateY(-2px);
+        }
+
+        .modal-buttons .cancel-btn {
+            background: #add8e6;
+            color: #19376d;
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background: #95c5d0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .activities-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .greeting h1 {
+                font-size: 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .activities-display {
+                padding: 20px;
+            }
+
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== LOGIN PAGE ===== -->
+    <div class="login-page" id="loginPage">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="Time Management Tracker logo.png" alt="StudyFlow Logo" class="login-logo-image" width="45%">
+            </div>
+            <h2 class="login-title">StudyFlow</h2>
+            <p class="login-subtitle">Your Personal Time Management Companion</p>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="nameInput">Name</label>
+                    <input type="text" id="nameInput" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="emailInput">Email</label>
+                    <input type="email" id="emailInput" placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordInput">Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <div class="dashboard-page" id="dashboardPage">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <img src="Time Management Tracker logo.png" alt="StudyFlow Logo" class="login-logo-image" width="45%">
+                    </div>
+                    <div class="clock-timer">
+                        <span id="liveTime">00:00</span>
+                    </div>
+                    <div class="greeting">
+                        <h1 id="greetingName">Welcome!</h1>
+                        <p>Let's make today productive</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="date-display">
+                        <strong id="currentDate"></strong>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- AI Personalization Top Card -->
+            <div class="dashboard-ai-card-wrapper">
+                <div class="ai-personalization-card" id="aiPersonalizationCard">
+                    <div class="ai-personalization-badge">AI Personalization</div>
+                    <h4>Tailored study guidance is loading...</h4>
+                    <p>Your personalized plan will appear here once you sign in.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-telegram-card-wrapper">
+                <div class="telegram-assistant-card">
+                    <div class="telegram-assistant-header">
+                        <div>
+                            <div class="telegram-assistant-badge">Telegram Integration</div>
+                            <h4 class="telegram-assistant-title">🤖 StudyFlow Telegram Assistant</h4>
+                            <p class="telegram-assistant-text">
+                                Stay connected with StudyFlow on Telegram. Manage your study tasks, receive reminders,
+                                and chat with the AI Study Coach anytime.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="telegram-feature-grid">
+                        <div class="telegram-feature-card">📚 AI Study Coach</div>
+                        <div class="telegram-feature-card">📅 View Schedule</div>
+                        <div class="telegram-feature-card">✅ Add Tasks</div>
+                        <div class="telegram-feature-card">📝 Add Exams</div>
+                        <div class="telegram-feature-card">🏖️ Add Vacations</div>
+                        <div class="telegram-feature-card">⏰ Automatic Reminders</div>
+                    </div>
+                    <a class="telegram-cta" href="https://t.me/Time_Management_party_bot" target="_blank" rel="noopener noreferrer">🚀 Open Telegram Bot</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Sidebar -->
+                <div class="sidebar-left">
+                    <!-- Activities -->
+                    <div class="activities-section">
+                        <div class="activities-label">🎯 Activities</div>
+                        <div class="activities-controls">
+                            <select class="activities-dropdown" id="activitiesMenu">
+                                <option value="tasks">📋 Tasks</option>
+                                <option value="exams">📝 Exams</option>
+                                <option value="classes">🏫 Classes</option>
+                                <option value="vacations">🏖️ Vacations</option>
+                            </select>
+                            <button class="add-new-activity-btn" id="addNewActivityBtn"
+                                onclick="openAddActivityModal()">
+                                + Add New
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="summary-box pending">
+                        <div class="summary-box-label">📋 Pending</div>
+                        <div class="summary-box-value" id="pendingCount">0</div>
+                        <div class="summary-box-subtitle">tasks awaiting</div>
+                    </div>
+
+                    <!-- Overdue -->
+                    <div class="summary-box overdue">
+                        <div class="summary-box-label">⚠️ Overdue</div>
+                        <div class="summary-box-value" id="overdueCount">0</div>
+                        <div class="summary-box-subtitle">urgent attention</div>
+                    </div>
+
+                    <!-- Completed -->
+                    <div class="summary-box completed">
+                        <div class="summary-box-label">✅ Completed</div>
+                        <div class="summary-box-value" id="completedCount">0</div>
+                        <div class="summary-box-subtitle">this week</div>
+                    </div>
+
+                    <!-- Streak -->
+                    <div class="summary-box streak">
+                        <div class="summary-box-label">🔥 Streak</div>
+                        <div class="summary-box-value" id="streakCount">0</div>
+                        <div class="summary-box-subtitle">days on track</div>
+                    </div>
+                </div>
+
+                <!-- Center - Focus Timer -->
+                <div class="center-content">
+                    <div class="timer-section">
+                        <div class="timer-label">Focus Timer</div>
+                        <div class="timer-display" id="timerDisplay">25:00</div>
+                        <div class="timer-buttons">
+                            <button class="timer-btn start" onclick="startTimer()">Start</button>
+                            <button class="timer-btn pause" onclick="pauseTimer()">Pause</button>
+                            <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar - Calendar -->
+                <div class="sidebar-right">
+                    <div class="calendar-header">
+                        <h3 id="monthYear">July 2026</h3>
+                        <div class="calendar-nav">
+                            <button onclick="prevMonth()">←</button>
+                            <button onclick="nextMonth()">→</button>
+                        </div>
+                    </div>
+
+                    <div class="weekdays">
+                        <div class="weekday">Sun</div>
+                        <div class="weekday">Mon</div>
+                        <div class="weekday">Tue</div>
+                        <div class="weekday">Wed</div>
+                        <div class="weekday">Thu</div>
+                        <div class="weekday">Fri</div>
+                        <div class="weekday">Sat</div>
+                    </div>
+
+                    <div class="days" id="calendarDays"></div>
+
+                    <div class="upcoming-tasks">
+                        <h4>📌 Upcoming</h4>
+                        <div id="selectedDateLabel" class="selected-date-label">Showing activities for today</div>
+                        <div id="upcomingTasksList">
+                            <div class="task-item">No activities scheduled for this date</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Display Sections -->
+            <div class="activities-display">
+                <div class="activities-grid">
+                    <!-- Tasks Box -->
+                    <div class="activity-box tasks">
+                        <h3>📋 Tasks</h3>
+                        <div class="activity-items-list" id="tasksList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <div class="empty-state-text">No tasks added yet</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Classes Box -->
+                    <div class="activity-box classes">
+                        <h3>🏫 Classes</h3>
+                        <div class="activity-items-list" id="classesList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🏫</div>
+                                <div class="empty-state-text">No classes added yet</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exams Box -->
+                    <div class="activity-box exams">
+                        <h3>📝 Exams</h3>
+                        <div class="activity-items-list" id="examsList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📝</div>
+                                <div class="empty-state-text">No exams added yet</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vacations Box -->
+                    <div class="activity-box vacations">
+                        <h3>🏖️ Vacations</h3>
+                        <div class="activity-items-list" id="vacationsList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🏖️</div>
+                                <div class="empty-state-text">No vacations added yet</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== AI CHATBOT ===== -->
+    <button class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()" style="display: none;">💬</button>
+
+    <div class="chatbot-panel" id="chatbotPanel">
+        <div class="chatbot-header">
+            <div class="chatbot-header-title">StudyBot</div>
+            <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="chat-bubble bot">Hi! I can help with your tasks, exams, classes, and study plans. Try asking:
+                “Suggest a schedule” or “Remind me about exams.”</div>
+        </div>
+        <form class="chatbot-input-row" id="chatbotForm" onsubmit="sendChatbotMessage(event)">
+            <input id="chatbotInput" type="text" placeholder="Ask StudyBot..." autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <!-- ===== ADD ACTIVITY MODAL ===== -->
+    <div class="modal" id="addActivityModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAddActivityModal()">&times;</button>
+            <div class="modal-header" id="modalTitle">Add New Task</div>
+
+            <form id="addActivityForm">
+                <div class="form-group">
+                    <label for="activityName">Title/Name</label>
+                    <input type="text" id="activityName" placeholder="Enter title" required>
+                </div>
+
+                <div id="categoryFieldContainer" class="form-group" style="display: none;">
+                    <label for="activityCategory">Category</label>
+                    <select id="activityCategory">
+                        <option value="">Select a category</option>
+                        <option value="tasks">📋 Tasks</option>
+                        <option value="exams">📝 Exams</option>
+                        <option value="classes">🏫 Classes</option>
+                        <option value="vacations">🏖️ Vacations</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="activityStartDateGroup" style="display: none;">
+                    <label for="activityStartDate">Vacation Start</label>
+                    <input type="date" id="activityStartDate">
+                </div>
+
+                <div class="form-group" id="activityEndDateGroup" style="display: none;">
+                    <label for="activityEndDate">Vacation End</label>
+                    <input type="date" id="activityEndDate">
+                </div>
+
+                <div class="form-group" id="activityDueDateGroup">
+                    <label for="activityDueDate">Date</label>
+                    <input type="date" id="activityDueDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="activityNotes">Notes</label>
+                    <textarea id="activityNotes" placeholder="Add any notes or details..."></textarea>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="save-btn">Save</button>
+                    <button type="button" class="cancel-btn" onclick="closeAddActivityModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ===== STATE MANAGEMENT =====
+        let currentUser = null;
+        let tasks = [];
+        let timerInterval = null;
+        let timerSeconds = 25 * 60;
+        let isRunning = false;
+        let chatbotOpen = false;
+        let currentActivityType = 'tasks';
+        let selectedDate = getLocalDateKey();
+        let visibleMonth = new Date();
+
+        function getUserStorageKey(prefix = 'tasks') {
+            const userIdentifier = currentUser?.email || currentUser?.name || 'guest';
+            return `${prefix}:${encodeURIComponent(userIdentifier.toLowerCase())}`;
+        }
+
+        function loadTasksForCurrentUser() {
+            const storageKey = getUserStorageKey('tasks');
+            const savedUserTasks = localStorage.getItem(storageKey);
+            if (savedUserTasks) {
+                tasks = JSON.parse(savedUserTasks);
+                return;
+            }
+
+            const legacyTasks = localStorage.getItem('tasks');
+            if (legacyTasks) {
+                tasks = JSON.parse(legacyTasks);
+                localStorage.setItem(storageKey, JSON.stringify(tasks));
+                localStorage.removeItem('tasks');
+                return;
+            }
+
+            tasks = [];
+        }
+
+        function saveTasksForCurrentUser() {
+            localStorage.setItem(getUserStorageKey('tasks'), JSON.stringify(tasks));
+        }
+
+        // ===== LOGIN HANDLING =====
+        function handleLogin(event) {
+            event.preventDefault();
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+
+            currentUser = { name, email };
+            loadTasksForCurrentUser();
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            saveTasksForCurrentUser();
+
+            // Switch to dashboard
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboardPage').classList.add('active');
+            document.getElementById('chatbotToggle').style.display = 'flex';
+            document.getElementById('chatbotPanel').classList.add('open');
+            chatbotOpen = true;
+            document.getElementById('chatbotMessages').innerHTML = '';
+            appendChatMessage(`Hi ${name || 'there'}! I can personalize your study plan using your tasks, exams, and classes. Try asking: “Suggest a schedule”, “Remind me about exams”, or “Focus timer”.`, false);
+
+            initDashboard();
+            document.getElementById('loginForm').reset();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            document.getElementById('dashboardPage').classList.remove('active');
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('chatbotToggle').style.display = 'none';
+            document.getElementById('chatbotPanel').classList.remove('open');
+            chatbotOpen = false;
+        }
+
+        // ===== DASHBOARD INITIALIZATION =====
+        function initDashboard() {
+            document.getElementById('greetingName').textContent = `Hey ${currentUser.name}, Welcome Back!`;
+            selectedDate = getLocalDateKey();
+            visibleMonth = new Date();
+            generateCalendar();
+            updateCurrentDate();
+            updateLiveTime();
+            setInterval(updateLiveTime, 1000);
+            updateTaskCounts();
+            updateUpcomingTasks();
+            displayActivitiesByType();
+            updateActivityDisplay();
+        }
+
+        function updateCurrentDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
+        }
+
+        function updateLiveTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('liveTime').textContent = `${hours}:${minutes}`;
+        }
+
+        // ===== AI CHATBOT =====
+        function toggleChatbot() {
+            const panel = document.getElementById('chatbotPanel');
+            chatbotOpen = !chatbotOpen;
+            panel.classList.toggle('open', chatbotOpen);
+            if (chatbotOpen) {
+                document.getElementById('chatbotInput').focus();
+            }
+        }
+
+        function appendChatMessage(text, isUser) {
+            const messages = document.getElementById('chatbotMessages');
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${isUser ? 'user' : 'bot'}`;
+            bubble.textContent = text;
+            messages.appendChild(bubble);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function openChatFromPrompt(prompt) {
+            const panel = document.getElementById('chatbotPanel');
+            const input = document.getElementById('chatbotInput');
+            chatbotOpen = true;
+            panel.classList.add('open');
+            input.value = prompt;
+            appendChatMessage(prompt, true);
+            const response = generateChatbotReply(prompt);
+            setTimeout(() => appendChatMessage(response, false), 250);
+            input.value = '';
+            input.focus();
+        }
+
+        function sendChatbotMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            appendChatMessage(message, true);
+            input.value = '';
+
+            const response = generateChatbotReply(message);
+            setTimeout(() => appendChatMessage(response, false), 250);
+        }
+
+        function expandDayRange(rangeText) {
+            const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            const shortMap = {
+                mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
+            };
+            const dayMatch = rangeText.match(/\b(mon(day)?|tue(s(day)?)?|wed(nesday)?|thu(rs(day)?)?|fri(day)?|sat(urday)?|sun(day)?)\b/gi);
+            if (!dayMatch || dayMatch.length < 2) return [];
+            const start = shortMap[dayMatch[0].toLowerCase().slice(0, 3)];
+            const end = shortMap[dayMatch[1].toLowerCase().slice(0, 3)];
+            const startIndex = dayOrder.indexOf(start);
+            const endIndex = dayOrder.indexOf(end);
+            if (startIndex === -1 || endIndex === -1) return [];
+            if (startIndex <= endIndex) {
+                return dayOrder.slice(startIndex, endIndex + 1);
+            }
+            return dayOrder.slice(startIndex).concat(dayOrder.slice(0, endIndex + 1));
+        }
+
+        function parseScheduleFromMessage(text) {
+            const dayNames = {
+                mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
+            };
+            const normalized = text.replace(/\s*-\s*/g, '-');
+            const rangeMatches = normalized.match(/\b(mon(day)?|tue(s(day)?)?|wed(nesday)?|thu(rs(day)?)?|fri(day)?|sat(urday)?|sun(day)?)(\s*-\s*)(mon(day)?|tue(s(day)?)?|wed(nesday)?|thu(rs(day)?)?|fri(day)?|sat(urday)?|sun(day)?)\b/gi) || [];
+            let days = [];
+            rangeMatches.forEach(range => {
+                days = days.concat(expandDayRange(range));
+            });
+            const simpleDayMatches = normalized.match(/\b(mon(day)?|tue(s(day)?)?|wed(nesday)?|thu(rs(day)?)?|fri(day)?|sat(urday)?|sun(day)?)\b/gi) || [];
+            days = days.concat(simpleDayMatches.map(day => dayNames[day.toLowerCase().slice(0, 3)]));
+            days = [...new Set(days.filter(Boolean))];
+
+            const hasCCA = /\bcca\b|co-?curricular|activity|activities\b/.test(text);
+            const dueToday = /\b(today|tdy)\b/.test(text);
+            const dueTomorrow = /\b(tomorrow|tmr|tmrw)\b/.test(text);
+            const timeMatch = text.match(/(\b\d{1,2}(?::\d{2})?\s?(am|pm)\b)|\b\d{1,2}\s?pm\b/);
+            const dueTime = timeMatch ? timeMatch[0] : null;
+            const assignmentMatch = /\b(assign(ment)?|homework|project|task)\b/.test(text);
+
+            if (!hasCCA && !dueToday && !dueTomorrow && days.length === 0 && !assignmentMatch) {
+                return null;
+            }
+
+            return {
+                days,
+                hasCCA,
+                dueToday,
+                dueTomorrow,
+                dueTime,
+                assignment: assignmentMatch ? 'assignment' : null,
+            };
+        }
+
+        function buildScheduleReply(data) {
+            const { days, hasCCA, dueToday, dueTomorrow, dueTime } = data;
+            const dayText = days.length ? `You have CCA on ${days.join(', ')}.` : hasCCA ? 'You have CCA during the week.' : '';
+            const dueParts = [];
+            if (dueToday) dueParts.push('today');
+            if (dueTomorrow) dueParts.push('tomorrow');
+            const dueText = dueParts.length ? `Your assignment is due ${dueParts.join(' and ')}${dueTime ? ` at ${dueTime}` : ''}.` : '';
+            const planPoints = [];
+
+            if (hasCCA) {
+                planPoints.push('Since you have CCA on those days, keep daytime hours free for training and use evenings for focused study.');
+            }
+            if (dueToday) {
+                planPoints.push('Start with the work due today first, using a short 25-minute focus block to finish the most urgent part.');
+            }
+            if (dueTomorrow && !dueToday) {
+                planPoints.push('Set aside a second session tomorrow morning to review and polish the assignment before submission.');
+            }
+            if (!hasCCA && !dueToday && !dueTomorrow) {
+                planPoints.push('If you share your exact timetable and deadlines, I can turn that into a daily plan.');
+            }
+            if (!planPoints.length) {
+                planPoints.push('Try adding your assignment and daily classes so I can give you a full schedule recommendation.');
+            }
+
+            return `${dayText} ${dueText} ${planPoints.join(' ')} Add the assignment to your tasks so I can keep track of it and remind you later.`.trim();
+        }
+
+        function generateChatbotReply(message) {
+            const lower = message.toLowerCase();
+            const scheduleHints = parseScheduleFromMessage(lower);
+            const upcoming = tasks
+                .filter(task => !task.completed)
+                .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+                .slice(0, 3);
+
+            if (lower.includes('schedule') || lower.includes('plan') || lower.includes('suggest') || lower.includes('help me') || lower.includes('help')) {
+                if (upcoming.length === 0) {
+                    if (scheduleHints) {
+                        return buildScheduleReply(scheduleHints);
+                    }
+                    return 'You do not have any upcoming items yet. Add a task, exam, or class to build a simple study plan.';
+                }
+                const first = upcoming[0];
+                const second = upcoming[1] || null;
+                return `Here is a simple plan: start with “${first.name}” on ${new Date(first.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}. ${second ? `Then review “${second.name}” next.` : 'Keep your focus block short and steady.'}`;
+            }
+
+            if (lower.includes('remind') || lower.includes('upcoming') || lower.includes('deadline')) {
+                if (upcoming.length === 0) {
+                    if (scheduleHints) {
+                        return buildScheduleReply(scheduleHints);
+                    }
+                    return 'You are all caught up for now. Add something new to keep your calendar active.';
+                }
+                const list = upcoming.map(item => `${item.name} (${new Date(item.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`).join(' • ');
+                return `Here are your upcoming items: ${list}`;
+            }
+
+            if (lower.includes('focus timer') || lower.includes('timer') || lower.includes('pomodoro')) {
+                return 'Use the Focus Timer for a 25-minute study block, then take a short break. You can restart it anytime with the buttons in the center.';
+            }
+
+            if (lower.includes('exam')) {
+                const exams = tasks.filter(task => task.type === 'exams');
+                if (exams.length === 0) {
+                    return 'You have no exams added yet. Add one to keep it on your calendar.';
+                }
+                const nextExam = exams.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))[0];
+                return `Your next exam is “${nextExam.name}” on ${new Date(nextExam.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.`;
+            }
+
+            if (lower.includes('class')) {
+                const classes = tasks.filter(task => task.type === 'classes');
+                if (classes.length === 0) {
+                    return 'You have no classes added yet. Add one to keep your weekly schedule organised.';
+                }
+                const nextClass = classes.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))[0];
+                return `Your next class is “${nextClass.name}” on ${new Date(nextClass.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.`;
+            }
+
+            if (lower.includes('vacation') || lower.includes('holiday')) {
+                return 'Vacations are perfect for resetting. Add them to your calendar so you can balance study time with rest.';
+            }
+
+            if (scheduleHints) {
+                return buildScheduleReply(scheduleHints);
+            }
+
+            return 'I can help with study plans, reminders, and focus tips. Try asking about a schedule, an exam, or the Focus Timer.';
+        }
+
+        function getLocalDateKey(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function parseDateKey(dateKey) {
+            if (!dateKey) return new Date();
+            const [year, month, day] = String(dateKey).split('-').map(Number);
+            if (!year || !month || !day) return new Date();
+            return new Date(year, month - 1, day, 12, 0, 0);
+        }
+
+        function rangesOverlap(startA, endA, startB, endB) {
+            return startA <= endB && startB <= endA;
+        }
+
+        function isDateInVacation(dateKey) {
+            return tasks.some(task => task.type === 'vacations' && task.startDate && task.endDate &&
+                parseDateKey(dateKey) >= parseDateKey(task.startDate) &&
+                parseDateKey(dateKey) <= parseDateKey(task.endDate)
+            );
+        }
+
+        function isVacationRangeConflicting(startDate, endDate) {
+            const rangeStart = parseDateKey(startDate);
+            const rangeEnd = parseDateKey(endDate);
+
+            return tasks.some(task => {
+                if (task.type === 'vacations' && task.startDate && task.endDate) {
+                    return rangesOverlap(rangeStart, rangeEnd, parseDateKey(task.startDate), parseDateKey(task.endDate));
+                }
+                if (task.type === 'classes' || task.type === 'exams') {
+                    const taskDate = parseDateKey(task.dueDate);
+                    return taskDate >= rangeStart && taskDate <= rangeEnd;
+                }
+                return false;
+            });
+        }
+
+        function formatDisplayDate(value) {
+            const date = parseDateKey(value);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function updateActivityDisplay() {
+            const activity = document.getElementById('activitiesMenu').value;
+            currentActivityType = activity;
+
+            const labels = {
+                tasks: 'Add Task',
+                exams: 'Add Exam',
+                classes: 'Add Class',
+                vacations: 'Add Vacation'
+            };
+
+            const isVacation = activity === 'vacations';
+            document.getElementById('addNewActivityBtn').textContent = `+ ${labels[activity]}`;
+            document.getElementById('activityDueDateGroup').style.display = isVacation ? 'none' : 'block';
+            document.getElementById('activityStartDateGroup').style.display = isVacation ? 'block' : 'none';
+            document.getElementById('activityEndDateGroup').style.display = isVacation ? 'block' : 'none';
+        }
+
+        document.getElementById('activitiesMenu').addEventListener('change', updateActivityDisplay);
+        document.getElementById('addActivityForm').addEventListener('submit', handleAddActivity);
+        window.handleAddActivity = handleAddActivity;
+
+        function openAddActivityModal() {
+            const activity = document.getElementById('activitiesMenu').value;
+            currentActivityType = activity;
+
+            const labels = {
+                tasks: 'Add New Task',
+                exams: 'Add New Exam',
+                classes: 'Add New Class',
+                vacations: 'Add New Vacation'
+            };
+
+            document.getElementById('modalTitle').textContent = labels[activity];
+            document.getElementById('activityDueDate').value = selectedDate;
+            document.getElementById('activityStartDate').value = selectedDate;
+            document.getElementById('activityEndDate').value = selectedDate;
+            document.getElementById('addActivityModal').classList.add('active');
+        }
+
+        function closeAddActivityModal() {
+            document.getElementById('addActivityModal').classList.remove('active');
+            document.getElementById('addActivityForm').reset();
+        }
+
+        function handleAddActivity(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('activityName').value.trim();
+            const notes = document.getElementById('activityNotes').value.trim();
+            const startDate = document.getElementById('activityStartDate').value;
+            const endDate = document.getElementById('activityEndDate').value;
+            const dueDate = document.getElementById('activityDueDate').value || selectedDate;
+
+            if (currentActivityType === 'vacations') {
+                if (!startDate || !endDate) {
+                    alert('Please choose both vacation start and end dates.');
+                    return;
+                }
+                if (parseDateKey(endDate) < parseDateKey(startDate)) {
+                    alert('Vacation end date cannot be before the start date.');
+                    return;
+                }
+                if (isVacationRangeConflicting(startDate, endDate)) {
+                    alert('This vacation overlaps an existing class, exam, or another vacation. Please choose a different range.');
+                    return;
+                }
+            } else if (['classes', 'exams'].includes(currentActivityType) && isDateInVacation(dueDate)) {
+                alert('Classes and exams cannot be scheduled during a vacation. Please choose a different date.');
+                return;
+            }
+
+            selectedDate = currentActivityType === 'vacations' ? startDate : dueDate;
+
+            const activity = {
+                id: Date.now(),
+                name,
+                type: currentActivityType,
+                dueDate: currentActivityType === 'vacations' ? startDate : dueDate,
+                startDate: currentActivityType === 'vacations' ? startDate : null,
+                endDate: currentActivityType === 'vacations' ? endDate : null,
+                notes,
+                completed: false,
+                createdDate: new Date().toISOString()
+            };
+
+            tasks.push(activity);
+            saveTasksForCurrentUser();
+
+            closeAddActivityModal();
+            updateTaskCounts();
+            updateUpcomingTasks();
+            displayActivitiesByType();
+            generateCalendar();
+        }
+
+        function toggleTaskCompletion(id) {
+            const item = tasks.find(task => task.id === id);
+            if (!item) return;
+
+            item.completed = !item.completed;
+            saveTasksForCurrentUser();
+            updateTaskCounts();
+            updateUpcomingTasks();
+            displayActivitiesByType();
+            generateCalendar();
+        }
+
+        function updateTaskCounts() {
+            const taskItems = tasks.filter(t => t.type === 'tasks');
+            const pending = taskItems.filter(t => !t.completed).length;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const overdue = taskItems.filter(t => !t.completed && parseDateKey(t.dueDate) < today).length;
+            const completed = taskItems.filter(t => t.completed).length;
+            const streak = Math.min(30, completed);
+
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('overdueCount').textContent = overdue;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('streakCount').textContent = streak;
+            updatePersonalizationCard();
+        }
+
+        function displayActivitiesByType() {
+            const tasksList = document.getElementById('tasksList');
+            const classesList = document.getElementById('classesList');
+            const examsList = document.getElementById('examsList');
+            const vacationsList = document.getElementById('vacationsList');
+
+            const tasksArray = tasks.filter(t => t.type === 'tasks');
+            const classesArray = tasks.filter(t => t.type === 'classes');
+            const examsArray = tasks.filter(t => t.type === 'exams');
+            const vacationsArray = tasks.filter(t => t.type === 'vacations');
+
+            const renderItems = (items) => items.map(item => {
+                const dateLabel = item.type === 'vacations' && item.startDate && item.endDate
+                    ? `${formatDisplayDate(item.startDate)} – ${formatDisplayDate(item.endDate)}`
+                    : formatDisplayDate(item.dueDate);
+                return `
+                    <div class="activity-item">
+                        <div class="activity-item-title">${item.name}</div>
+                        <div class="activity-item-date">${dateLabel}</div>
+                        ${item.notes ? `<div class="activity-item-notes">${item.notes}</div>` : ''}
+                        <div class="activity-item-actions">
+                            <button class="activity-check-btn ${item.completed ? 'done' : ''}" onclick="toggleTaskCompletion(${item.id})">${item.completed ? '✓ Completed' : 'Mark done'}</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (tasksArray.length === 0) {
+                tasksList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><div class="empty-state-text">No tasks added yet</div></div>';
+            } else {
+                tasksList.innerHTML = renderItems(tasksArray);
+            }
+
+            if (classesArray.length === 0) {
+                classesList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏫</div><div class="empty-state-text">No classes added yet</div></div>';
+            } else {
+                classesList.innerHTML = renderItems(classesArray);
+            }
+
+            if (examsArray.length === 0) {
+                examsList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><div class="empty-state-text">No exams added yet</div></div>';
+            } else {
+                examsList.innerHTML = renderItems(examsArray);
+            }
+
+            if (vacationsArray.length === 0) {
+                vacationsList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏖️</div><div class="empty-state-text">No vacations added yet</div></div>';
+            } else {
+                vacationsList.innerHTML = renderItems(vacationsArray);
+            }
+        }
+
+        function updateUpcomingTasks() {
+            const filtered = tasks
+                .filter(t => !t.completed && (
+                    t.dueDate === selectedDate ||
+                    (t.type === 'vacations' && t.startDate && t.endDate &&
+                        parseDateKey(selectedDate) >= parseDateKey(t.startDate) &&
+                        parseDateKey(selectedDate) <= parseDateKey(t.endDate))
+                ))
+                .sort((a, b) => {
+                    const dateA = t => t.type === 'vacations' && t.startDate ? parseDateKey(t.startDate) : parseDateKey(t.dueDate);
+                    return dateA(a) - dateA(b);
+                });
+
+            const container = document.getElementById('upcomingTasksList');
+            const label = document.getElementById('selectedDateLabel');
+            label.textContent = `Showing activities for ${formatDisplayDate(selectedDate)}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="task-item">No activities scheduled for this date</div>';
+            } else {
+                container.innerHTML = filtered.map(task => {
+                    const dateStr = task.type === 'vacations' && task.startDate && task.endDate
+                        ? `${formatDisplayDate(task.startDate)} – ${formatDisplayDate(task.endDate)}`
+                        : formatDisplayDate(task.dueDate);
+                    return `<div class="task-item ${task.type}">${task.name} • ${dateStr}</div>`;
+                }).join('');
+            }
+
+            updatePersonalizationCard();
+        }
+
+        function updatePersonalizationCard() {
+            const card = document.getElementById('aiPersonalizationCard');
+            if (!card) return;
+
+            const pendingItems = tasks.filter(task => !task.completed);
+            const todayKey = getLocalDateKey();
+            const todayItems = pendingItems.filter(task => task.dueDate === todayKey);
+            const overdueItems = pendingItems.filter(task => parseDateKey(task.dueDate) < parseDateKey(todayKey));
+            const nextTask = [...pendingItems].sort((a, b) => parseDateKey(a.dueDate) - parseDateKey(b.dueDate))[0];
+            const userName = currentUser?.name || 'there';
+
+            let headline = `Hi ${userName}, your study plan is ready.`;
+            let detail = 'Add a task or class to get a more tailored recommendation.';
+            let promptText = 'Suggest a schedule';
+
+            if (nextTask) {
+                const nextDate = formatDisplayDate(nextTask.dueDate);
+                headline = `Your next priority is “${nextTask.name}”.`;
+                detail = `It is due ${nextDate}. ${todayItems.length ? 'You have a few items scheduled today, so start with the most urgent one first.' : 'A short focus block would help you stay on track.'}`;
+                promptText = 'Remind me about upcoming deadlines';
+            } else if (overdueItems.length) {
+                headline = 'A few items need your attention.';
+                detail = `You have ${overdueItems.length} overdue item${overdueItems.length > 1 ? 's' : ''}. Start with the earliest deadline to regain momentum.`;
+                promptText = 'Suggest a schedule';
+            } else if (todayItems.length) {
+                headline = 'Today looks focused and manageable.';
+                detail = `You have ${todayItems.length} item${todayItems.length > 1 ? 's' : ''} planned for today. A quick 25-minute session would be a strong start.`;
+                promptText = 'Focus timer';
+            }
+
+            card.innerHTML = `
+                <div class="ai-personalization-badge">AI Personalization</div>
+                <h4>${headline}</h4>
+                <p>${detail}</p>
+                <div class="ai-prompt-row">
+                    <button class="ai-prompt-pill" onclick="openChatFromPrompt('Suggest a schedule')">Suggest a schedule</button>
+                    <button class="ai-prompt-pill" onclick="openChatFromPrompt('Remind me about exams')">Remind me about exams</button>
+                    <button class="ai-prompt-pill" onclick="openChatFromPrompt('Focus timer')">Focus timer</button>
+                </div>
+            `;
+        }
+
+        // ===== CALENDAR MANAGEMENT =====
+        function generateCalendar() {
+            const year = visibleMonth.getFullYear();
+            const month = visibleMonth.getMonth();
+            const today = new Date();
+            const todayKey = getLocalDateKey(today);
+
+            document.getElementById('monthYear').textContent =
+                visibleMonth.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const prevMonthDays = new Date(year, month, 0).getDate();
+            const calendarDays = [];
+
+            for (let i = 0; i < firstDay; i++) {
+                const day = prevMonthDays - firstDay + i + 1;
+                const date = new Date(year, month - 1, day);
+                calendarDays.push({
+                    date,
+                    dateKey: getLocalDateKey(date),
+                    isCurrentMonth: false,
+                    dayNumber: day
+                });
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(year, month, i);
+                const dateKey = getLocalDateKey(date);
+                const dateTypes = Array.from(new Set(tasks
+                    .filter(task => task.dueDate === dateKey ||
+                        (task.type === 'vacations' && task.startDate && task.endDate &&
+                            parseDateKey(dateKey) >= parseDateKey(task.startDate) &&
+                            parseDateKey(dateKey) <= parseDateKey(task.endDate)))
+                    .map(task => task.type)
+                ));
+                calendarDays.push({
+                    date,
+                    dateKey,
+                    isCurrentMonth: true,
+                    dayNumber: i,
+                    dateTypes
+                });
+            }
+
+            const remainingCells = 42 - calendarDays.length;
+            for (let i = 1; i <= remainingCells; i++) {
+                const date = new Date(year, month + 1, i);
+                calendarDays.push({
+                    date,
+                    dateKey: getLocalDateKey(date),
+                    isCurrentMonth: false,
+                    dayNumber: i
+                });
+            }
+
+            let calendarHTML = '';
+            calendarDays.forEach(({ dateKey, dayNumber, isCurrentMonth, dateTypes = [] }) => {
+                const isToday = dateKey === todayKey;
+                const isSelected = dateKey === selectedDate;
+                const classes = ['day', isSelected ? 'selected' : '', isToday ? 'today' : '', !isCurrentMonth ? 'disabled' : '', dateTypes.length ? 'has-items' : ''].filter(Boolean).join(' ');
+                const dotsHtml = dateTypes.map(type => `<span class="day-dot ${type}"></span>`).join('');
+
+                if (isCurrentMonth) {
+                    calendarHTML += `<button type="button" class="${classes}" onclick="selectDate('${dateKey}')">${dayNumber}<span class="day-markers">${dotsHtml}</span></button>`;
+                } else {
+                    calendarHTML += `<div class="day disabled">${dayNumber}</div>`;
+                }
+            });
+
+            document.getElementById('calendarDays').innerHTML = calendarHTML;
+        }
+
+        function selectDate(dateKey) {
+            selectedDate = dateKey;
+            visibleMonth = parseDateKey(dateKey);
+            generateCalendar();
+            updateUpcomingTasks();
+            document.getElementById('activityDueDate').value = selectedDate;
+        }
+
+        function prevMonth() {
+            visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+            generateCalendar();
+        }
+
+        // ===== TIMER MANAGEMENT =====
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        pauseTimer();
+                        alert('🎉 Focus session complete! Great work!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 25 * 60;
+            updateTimerDisplay();
+        }
+
+        // ===== INITIALIZATION =====
+        window.addEventListener('load', function () {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loadTasksForCurrentUser();
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').classList.add('active');
+                document.getElementById('chatbotToggle').style.display = 'flex';
+                document.getElementById('chatbotPanel').classList.add('open');
+                chatbotOpen = true;
+                document.getElementById('chatbotMessages').innerHTML = '';
+                appendChatMessage(`Welcome back, ${currentUser.name || 'there'}! I’m ready to help plan your day and keep your study routine on track.`, false);
+                initDashboard();
+            }
+        });
+
+        updateTimerDisplay();
+
+    </script>
+</body>
+
+</html>

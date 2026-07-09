@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Timetable - StudyFlow</title>
+    <link rel="stylesheet" href="css/timetable.css">
+</head>
+<body>
+    <div class="timetable-viewer">
+        <!-- Header -->
+        <header class="viewer-header">
+            <div class="header-left">
+                <h1>📅 My Timetable</h1>
+                <p id="timetableTitle">Weekly Schedule</p>
+            </div>
+            <div class="header-right">
+                <button class="btn-secondary" onclick="editTimetable()">✏️ Edit</button>
+                <button class="btn-secondary" onclick="downloadTimetable()">⬇️ Download</button>
+                <button class="btn-secondary" onclick="goBackToDashboard()">← Dashboard</button>
+            </div>
+        </header>
+
+        <div class="viewer-container">
+            <!-- Legend -->
+            <div class="legend-section">
+                <h3>Legend</h3>
+                <div class="legend-items" id="legendItems">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Timetable Grid -->
+            <div class="timetable-grid-container">
+                <div class="timetable-grid" id="timetableGrid">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Conflicts Alert -->
+            <div class="conflicts-section" id="conflictsSection" style="display: none;">
+                <h3>⚠️ Time Conflicts</h3>
+                <div class="conflicts-list" id="conflictsList">
+                    <!-- Will be populated by JS -->
+                </div>
+                <button class="btn-primary" onclick="moveToEditMode()">Resolve Conflicts</button>
+            </div>
+
+            <!-- Edit Mode -->
+            <div class="edit-mode" id="editMode" style="display: none;">
+                <h3>Edit Timetable Entry</h3>
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label>Activity</label>
+                        <input type="text" id="editActivityName" placeholder="Activity name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" id="editStartTime">
+                        </div>
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="time" id="editEndTime">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <button class="btn-primary" onclick="saveEntryEdit()">Save</button>
+                        <button class="btn-secondary" onclick="cancelEdit()">Cancel</button>
+                        <button class="btn-danger" onclick="deleteEntry()">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="statistics-section">
+                <h3>📊 Statistics</h3>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/timetable.js"></script>
+</body>
+</html>
